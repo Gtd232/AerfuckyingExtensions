@@ -3,8 +3,74 @@
  * Object representing a Scratch variable.
  */
 
- const uid = require('../util/uid');
- const xmlEscape = require('../util/xml-escape');
+/**
+ * @fileoverview UID generator, from Blockly.
+ */
+
+/**
+ * Legal characters for the unique ID.
+ * Should be all on a US keyboard.  No XML special characters or control codes.
+ * Removed $ due to issue 251.
+ * @private
+ */
+ const soup_ = '!#%()*+,-./:;=?@[]^_`{|}~' +
+ 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+/**
+* Generate a unique ID, from Blockly.  This should be globally unique.
+* 87 characters ^ 20 length > 128 bits (better than a UUID).
+* @return {string} A globally unique ID string.
+*/
+const uid = function () {
+ const length = 20;
+ const soupLength = soup_.length;
+ const id = [];
+ for (let i = 0; i < length; i++) {
+     id[i] = soup_.charAt(Math.random() * soupLength);
+ }
+ return id.join('');
+};
+
+module.exports = uid;
+
+const minilog = require('minilog');
+minilog.enable();
+
+module.exports = minilog('vm');
+
+
+/**
+ * Escape a string to be safe to use in XML content.
+ * CC-BY-SA: hgoebl
+ * https://stackoverflow.com/questions/7918868/
+ * how-to-escape-xml-entities-in-javascript
+ * @param {!string | !Array.<string>} unsafe Unsafe string.
+ * @return {string} XML-escaped string, for use within an XML tag.
+ */
+const xmlEscape = function (unsafe) {
+    if (typeof unsafe !== 'string') {
+        if (Array.isArray(unsafe)) {
+            // This happens when we have hacked blocks from 2.0
+            // See #1030
+            unsafe = String(unsafe);
+        } else {
+            log.error('Unexpected input recieved in replaceUnsafeChars');
+            return unsafe;
+        }
+    }
+    return unsafe.replace(/[<>&'"]/g, c => {
+        switch (c) {
+        case '<': return '&lt;';
+        case '>': return '&gt;';
+        case '&': return '&amp;';
+        case '\'': return '&apos;';
+        case '"': return '&quot;';
+        }
+    });
+};
+
+module.exports = xmlEscape;
+
  
  class Variable {
      /**
