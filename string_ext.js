@@ -31,7 +31,6 @@ const uid = function () {
  return id.join('');
 };
 
-module.exports = uid;
 
 const minilog = require('minilog');
 minilog.enable();
@@ -69,7 +68,7 @@ const xmlEscape = function (unsafe) {
     });
 };
 
-module.exports = xmlEscape;
+
 
  
  class Variable {
@@ -133,7 +132,7 @@ module.exports = xmlEscape;
      }
  }
  
- module.exports = Variable;
+
  
 /**
  * Block argument types
@@ -181,7 +180,7 @@ module.exports = xmlEscape;
     IMAGE: 'image'
 };
 
-module.exports = ArgumentType;
+
 /**
  * Types of block
  * @enum {string}
@@ -231,7 +230,7 @@ module.exports = ArgumentType;
     REPORTER: 'reporter'
 };
 
-module.exports = BlockType;
+
 
 class Color {
     /**
@@ -436,7 +435,7 @@ class Color {
     }
 }
 
-module.exports = Color;
+
 
 
 /**
@@ -654,7 +653,7 @@ class Cast {
     }
 }
 
-module.exports = Cast;
+
 
 
 /**
