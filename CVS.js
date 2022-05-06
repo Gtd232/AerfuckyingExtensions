@@ -1274,4 +1274,4 @@ class Scratch3CanvasBlocks {
     }
 }
 
-module.exports = Scratch3CanvasBlocks;
+
